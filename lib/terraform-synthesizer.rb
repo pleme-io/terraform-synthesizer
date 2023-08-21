@@ -8,6 +8,7 @@ class TerraformSynthesizer < AbstractSynthesizer
         terraform
         resource
         variable
+        output
         data
       ],
       *args,
