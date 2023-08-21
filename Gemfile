@@ -2,7 +2,6 @@ source %(https://rubygems.org)
 
 group :development do
   %w[
-    solargraph
     keycutter
     rubocop
     rspec
