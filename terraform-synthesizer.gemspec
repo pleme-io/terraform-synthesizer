@@ -17,5 +17,9 @@ Gem::Specification.new do |spec|
   spec.require_paths         = [%(lib)]
   spec.required_ruby_version = %(>= #{`cat .ruby-version`})
 
+  %i[abstract-synthesizer].each do |gem|
+    spec.add_runtime_dependency(gem)
+  end
+
   spec.metadata[%(rubygems_mfa_required)] = %(true)
 end
