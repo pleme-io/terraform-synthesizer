@@ -2,7 +2,6 @@ require %(abstract-synthesizer)
 
 class TerraformSynthesizer < AbstractSynthesizer
   RESOURCE_KEYS = %i[
-    terraform
     resource
     variable
     output
@@ -12,7 +11,7 @@ class TerraformSynthesizer < AbstractSynthesizer
   # if there are additional block keys
   # add them here and they should be processed
   # accordingly
-  BLOCK_KEYS = %i[locals].freeze
+  BLOCK_KEYS = %i[locals terraform].freeze
 
   ##############################################################################
   # notes:
