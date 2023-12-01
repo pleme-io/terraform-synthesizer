@@ -18,6 +18,8 @@ class TerraformSynthesizer < AbstractSynthesizer
       @translation[:template][:locals].merge!(yield) if block_given?
       @in_locals = true
     else
+      return {} if @in_locals
+
       abstract_method_missing(
         method_name,
         %i[
