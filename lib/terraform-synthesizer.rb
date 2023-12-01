@@ -29,7 +29,7 @@ class TerraformSynthesizer < AbstractSynthesizer
   def method_missing(method_name, *args, &)
     BLOCK_KEYS.each do |block_key|
       if @in_block_key
-        raise ArgumentError, %(not assigning anything to this #{block_key}) if args[0].nil?
+        raise ArgumentError, %(not assigning anything to this #{block_key}) if args[0].nil? || args[0].empty?
 
         @in_block_key = false
         @translation[:template][block_key.to_sym][method_name.to_sym] = args[0]
