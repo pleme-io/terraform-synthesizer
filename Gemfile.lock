@@ -1,14 +1,14 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    abstract-synthesizer (0.0.3)
+    abstract-synthesizer (0.0.4)
     ast (2.4.2)
     backport (1.2.0)
     benchmark (0.3.0)
     diff-lcs (1.5.0)
     e2mmap (0.1.0)
     jaro_winkler (1.5.6)
-    json (2.6.3)
+    json (2.7.0)
     keycutter (1.0.2)
     kramdown (2.4.0)
       rexml
