@@ -14,6 +14,9 @@ describe TerraformSynthesizer do
         locals do
           special_var %(special_value)
         end
+        resource :aws_vpc, :thang do
+          cidr_block %(10.0.0.0/16)
+        end
       end
       expect(synth.synthesis).to be_kind_of(Hash)
     end
@@ -26,6 +29,9 @@ describe TerraformSynthesizer do
         locals do
           special_var %(special_value)
         end
+        resource :aws_vpc, :thang do
+          cidr_block %(10.0.0.0/16)
+        end
       end
       expect(synth.synthesis[:locals][:special_var]).to be_kind_of(String)
     end
@@ -37,6 +43,9 @@ describe TerraformSynthesizer do
         end
         locals do
           special_var %(special_value)
+        end
+        resource :aws_vpc, :thang do
+          cidr_block %(10.0.0.0/16)
         end
       end
       expect(synth.synthesis[:resource][:aws_vpc][:thing]).to be_kind_of(Hash)
