@@ -9,6 +9,7 @@ class TerraformSynthesizer < AbstractSynthesizer
         resource
         variable
         output
+        locals
         data
       ],
       ...
