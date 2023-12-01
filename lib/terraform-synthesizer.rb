@@ -1,13 +1,18 @@
 require %(abstract-synthesizer)
 
 class TerraformSynthesizer < AbstractSynthesizer
-  KEYS = %i[
+  RESOURCE_KEYS = %i[
     terraform
     resource
     variable
     output
     data
   ].freeze
+
+  # if there are additional block keys
+  # add them here and they should be processed
+  # accordingly
+  BLOCK_KEYS = %i[locals].freeze
 
   ##############################################################################
   # notes:
@@ -22,30 +27,57 @@ class TerraformSynthesizer < AbstractSynthesizer
   # end
   ##############################################################################
   def method_missing(method_name, *args, &)
-    if @in_locals
-      if args[0].nil?
-        raise ArgumentError,
-              %(not assigning anything to this local #{method_name})
+    BLOCK_KEYS.each do |block_key|
+      if @in_block_key
+        raise ArgumentError, %(not assigning anything to this #{block_key}) if args[0].nil?
+
+        @in_block_key = false
+        @translation[:template][block_key.to_sym][method_name.to_sym] = args[0]
+
+      elsif method_name.to_s.eql?(block_key.to_s)
+
+        @translation = {} if @translation.nil?
+        @translation[:template] = {} if @translation[:template].nil?
+        if @translation[:template][block_key.to_sym].nil?
+          @translation[:template][block_key.to_sym] =
+            {}
+        end
+        @in_block_key = true
+
+        yield
+      else
+        abstract_method_missing(
+          method_name.to_sym,
+          RESOURCE_KEYS,
+          *args,
+          &
+        )
       end
-
-      @in_locals                                            = false
-      @translation[:template][:locals][method_name.to_sym]  = args[0]
-
-    elsif method_name.to_s.eql?(%(locals))
-
-      @translation                      = {} if @translation.nil?
-      @translation[:template]           = {} if @translation[:template].nil?
-      @translation[:template][:locals]  = {} if @translation[:template][:locals].nil?
-      @in_locals                        = true
-
-      yield
-    else
-      abstract_method_missing(
-        method_name.to_sym,
-        KEYS,
-        *args,
-        &
-      )
     end
+    # if @in_locals
+    #   if args[0].nil?
+    #     raise ArgumentError,
+    #           %(not assigning anything to this local #{method_name})
+    #   end
+    #
+    #   @in_locals                                            = false
+    #   @translation[:template][:locals][method_name.to_sym]  = args[0]
+    #
+    # elsif method_name.to_s.eql?(%(locals))
+    #
+    #   @translation                      = {} if @translation.nil?
+    #   @translation[:template]           = {} if @translation[:template].nil?
+    #   @translation[:template][:locals]  = {} if @translation[:template][:locals].nil?
+    #   @in_locals                        = true
+    #
+    #   yield
+    # else
+    #   abstract_method_missing(
+    #     method_name.to_sym,
+    #     RESOURCE_KEYS,
+    #     *args,
+    #     &
+    #   )
+    # end
   end
 end
