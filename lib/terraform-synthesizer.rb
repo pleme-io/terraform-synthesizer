@@ -8,18 +8,17 @@ class TerraformSynthesizer < AbstractSynthesizer
       @translation[:template][:locals] = {} if @translation[:template][:locals].nil?
       @translation[:template][:locals].merge!(yield) if block_given?
     else
-      return {}
+      abstract_method_missing(
+        method_name,
+        %i[
+          terraform
+          resource
+          variable
+          output
+          data
+        ],
+        ...
+      )
     end
-    abstract_method_missing(
-      method_name,
-      %i[
-        terraform
-        resource
-        variable
-        output
-        data
-      ],
-      ...
-    )
   end
 end
