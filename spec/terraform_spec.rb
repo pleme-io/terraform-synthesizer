@@ -36,7 +36,25 @@ describe TerraformSynthesizer do
       expect(synth.synthesis[:locals][:special_var]).to be_kind_of(String)
     end
 
-    it %(should contain resources) do
+    it %(should contain resource thing) do
+      synth.synthesize do
+        resource :aws_vpc, :thing do
+          cidr_block %(10.0.0.0/16)
+          stuff do
+            other_stuff %(whoa)
+          end
+        end
+        locals do
+          special_var %(special_value)
+        end
+        resource :aws_vpc, :thang do
+          cidr_block %(10.0.0.0/16)
+        end
+      end
+      expect(synth.synthesis[:resource][:aws_vpc][:thing]).to be_kind_of(Hash)
+    end
+
+    it %(should contain resource thang) do
       synth.synthesize do
         resource :aws_vpc, :thing do
           cidr_block %(10.0.0.0/16)
@@ -48,7 +66,7 @@ describe TerraformSynthesizer do
           cidr_block %(10.0.0.0/16)
         end
       end
-      expect(synth.synthesis[:resource][:aws_vpc][:thing]).to be_kind_of(Hash)
+      expect(synth.synthesis[:resource][:aws_vpc][:thang]).to be_kind_of(Hash)
     end
   end
 end
