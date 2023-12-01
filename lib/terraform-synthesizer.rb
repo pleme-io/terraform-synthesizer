@@ -41,10 +41,8 @@ class TerraformSynthesizer < AbstractSynthesizer
 
         @translation = {} if @translation.nil?
         @translation[:template] = {} if @translation[:template].nil?
+        @translation[:template][block_key.to_sym] = {} \
         if @translation[:template][block_key.to_sym].nil?
-          @translation[:template][block_key.to_sym] =
-            {}
-        end
         @in_block_key = true
 
         yield
