@@ -1,7 +1,7 @@
 require %(abstract-synthesizer)
 
 class TerraformSynthesizer < AbstractSynthesizer
-  def method_missing(method_name, *args, &block)
+  def method_missing(method_name, ...)
     abstract_method_missing(
       method_name,
       %i[
@@ -11,8 +11,7 @@ class TerraformSynthesizer < AbstractSynthesizer
         output
         data
       ],
-      *args,
-      &block
+      ...
     )
   end
 end
