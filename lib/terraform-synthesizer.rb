@@ -3,6 +3,7 @@ require %(abstract-synthesizer)
 class TerraformSynthesizer < AbstractSynthesizer
   RESOURCE_KEYS = %i[
     terraform
+    provider
     resource
     variable
     locals

@@ -62,5 +62,15 @@ describe TerraformSynthesizer do
       end
       expect(synth.synthesis[:resource][:aws_vpc][:thang]).to be_kind_of(Hash)
     end
+
+    it %(should return provider) do
+      synth.synthesize do
+        provider :datadog do
+          api_key %(api key value)
+          app_key %(app key value)
+        end
+      end
+      expect(synth.synthesis[:provider]).to be_kind_of(Hash)
+    end
   end
 end
