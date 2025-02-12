@@ -4,10 +4,10 @@
     platforms = [];
     source = {
       remotes = ["https://rubygems.org"];
-      sha256 = "0fy505w9insz837ssib3n87vswds16qyyw74rrq1z9wsdh34kf78";
+      sha256 = "0r5yqf5jhy0hahib6axs54h5f9n81mfc2w2bmz2n5v5s301iq1dq";
       type = "gem";
     };
-    version = "0.0.7";
+    version = "0.0.8";
   };
   ast = {
     groups = ["default" "development"];
@@ -204,7 +204,7 @@
       path = ./.;
       type = "path";
     };
-    version = "0.0.24";
+    version = "0.0.25";
   };
   unicode-display_width = {
     dependencies = ["unicode-emoji"];
