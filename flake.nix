@@ -1,17 +1,37 @@
 {
-  description = "terraform-synthesizer";
+  description = "generic ruby dsl resources";
 
-  inputs.nixpkgs.url = github:NixOS/nixpkgs;
-  inputs.ruby-flake-utils.url = github:t3rro/ruby-flake-utils;
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs";
+  inputs.ruby-nix.url = "github:inscapist/ruby-nix";
+  inputs.flake-utils.url = "github:numtide/flake-utils";
 
-  outputs = { ruby-flake-utils, nixpkgs, ... }:
-    ruby-flake-utils.lib.mkGemSystems {
-      inherit nixpkgs;
-      name = "terraform-synthesizer";
-      lockfile = ./Gemfile.lock;
-      gemfile = ./Gemfile;
-      gemset = ./gemset.nix;
-      strategy = "lib";
-      src = ./.;
-    };
+  outputs = {
+    nixpkgs,
+    flake-utils,
+    ruby-nix,
+    ...
+  }:
+    flake-utils.lib.eachDefaultSystem (system: let
+      pkgs = import nixpkgs {
+        inherit system;
+        overlays = [ruby-nix.overlays.ruby];
+      };
+      rnix = ruby-nix.lib pkgs;
+      rnix-env = rnix {
+        name = "terraform-synthesizer";
+        gemset = ./gemset.nix;
+      };
+      env = rnix-env.env;
+      ruby = rnix-env.ruby;
+    in {
+      devShells = rec {
+        default = dev;
+        dev = pkgs.mkShell {
+          buildInputs = [
+            env
+            ruby
+          ];
+        };
+      };
+    });
 }
