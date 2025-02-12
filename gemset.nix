@@ -1,13 +1,13 @@
 {
   abstract-synthesizer = {
-    groups = ["production"];
+    groups = ["default"];
     platforms = [];
     source = {
       remotes = ["https://rubygems.org"];
-      sha256 = "0bsjl0qgpidjpk7mj45rg02jmmapz6lfc6j0q8lc34x5sqj1rw76";
+      sha256 = "0fy505w9insz837ssib3n87vswds16qyyw74rrq1z9wsdh34kf78";
       type = "gem";
     };
-    version = "0.0.4";
+    version = "0.0.7";
   };
   ast = {
     groups = ["default" "development"];
@@ -195,6 +195,16 @@
       type = "gem";
     };
     version = "1.13.0";
+  };
+  terraform-synthesizer = {
+    dependencies = ["abstract-synthesizer"];
+    groups = ["default"];
+    platforms = [];
+    source = {
+      path = ./.;
+      type = "path";
+    };
+    version = "0.0.23";
   };
   unicode-display_width = {
     dependencies = ["unicode-emoji"];
