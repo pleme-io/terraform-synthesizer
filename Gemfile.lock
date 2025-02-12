@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    terraform-synthesizer (0.0.23)
+    terraform-synthesizer (0.0.24)
       abstract-synthesizer
 
 GEM
