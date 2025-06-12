@@ -6,7 +6,7 @@ require_relative %(lib/terraform-synthesizer/version)
 
 Gem::Specification.new do |spec|
   spec.name                  = %(terraform-synthesizer)
-  spec.version               = TerraformSynthesizer::VERSION
+  spec.version               = Meta::VERSION
   spec.authors               = [%(drzthslnt@gmail.com)]
   spec.email                 = [%(drzthslnt@gmail.com)]
   spec.description           = %(create terraform resources)
