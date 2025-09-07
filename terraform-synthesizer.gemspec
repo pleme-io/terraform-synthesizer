@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
   spec.description           = %(create terraform resources)
   spec.summary               = %(create terraform resources)
   spec.homepage              = %(https://github.com/drzln/#{spec.name})
-  spec.license               = %(MIT)
+  spec.license               = %(Apache-2.0)
   spec.require_paths         = [%(lib)]
   spec.required_ruby_version = %(>=3.3.0)
 
