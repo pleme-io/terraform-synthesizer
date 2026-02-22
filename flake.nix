@@ -1,14 +1,22 @@
 {
   description = "generic ruby dsl resources";
 
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs";
-  inputs.ruby-nix.url = "github:inscapist/ruby-nix";
-  inputs.flake-utils.url = "github:numtide/flake-utils";
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    ruby-nix.url = "github:inscapist/ruby-nix";
+    flake-utils.url = "github:numtide/flake-utils";
+    substrate = {
+      url = "github:pleme-io/substrate";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+  };
 
   outputs = {
+    self,
     nixpkgs,
     flake-utils,
     ruby-nix,
+    substrate,
     ...
   }:
     flake-utils.lib.eachDefaultSystem (system: let
@@ -23,6 +31,12 @@
       };
       env = rnix-env.env;
       ruby = rnix-env.ruby;
+
+      rubyBuild = import "${substrate}/lib/ruby-build.nix" {
+        inherit pkgs;
+        forgeCmd = "";
+        defaultGhcrToken = "";
+      };
     in {
       devShells = rec {
         default = dev;
@@ -31,6 +45,13 @@
             env
             ruby
           ];
+        };
+      };
+
+      apps = {
+        regen = rubyBuild.mkRubyRegenApp {
+          srcDir = self;
+          name = "terraform-synthesizer";
         };
       };
     });
