@@ -9,6 +9,11 @@
       url = "github:pleme-io/substrate";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    forge = {
+      url = "github:pleme-io/forge";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.substrate.follows = "substrate";
+    };
   };
 
   outputs = {
@@ -17,6 +22,7 @@
     flake-utils,
     ruby-nix,
     substrate,
+    forge,
     ...
   }:
     flake-utils.lib.eachDefaultSystem (system: let
@@ -34,7 +40,7 @@
 
       rubyBuild = import "${substrate}/lib/ruby-build.nix" {
         inherit pkgs;
-        forgeCmd = "";
+        forgeCmd = "${forge.packages.${system}.default}/bin/forge";
         defaultGhcrToken = "";
       };
     in {
@@ -51,7 +57,6 @@
       apps = rubyBuild.mkRubyGemApps {
         srcDir = self;
         name = "terraform-synthesizer";
-        inherit ruby;
       };
     });
 }
