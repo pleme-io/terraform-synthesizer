@@ -48,11 +48,10 @@
         };
       };
 
-      apps = {
-        regen = rubyBuild.mkRubyRegenApp {
-          srcDir = self;
-          name = "terraform-synthesizer";
-        };
+      apps = rubyBuild.mkRubyGemApps {
+        srcDir = self;
+        name = "terraform-synthesizer";
+        inherit ruby;
       };
     });
 }
